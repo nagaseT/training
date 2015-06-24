@@ -1,7 +1,8 @@
 var express = require('express');
 var bodyParser = require('body-parser');
 var app = express();
-var login = require('./model/users');
+//var login = require('./model/users');
+var db = require('./model/db');
 
 // setting
 app.set('views', './views');
@@ -72,7 +73,26 @@ app.get('/test', function(req, res) {
   return res.send('NG');
 });
 
-// use Promise
+// use Promise 2
+app.post('/login', function(req, res) {
+  var username = req.body.username;
+  var password = req.body.password;
+
+  var loginDB = new db();
+  loginDB.connect().then(function() {
+    return loginDB.login(username, password);
+  }).then(function(result) {
+    if (!result) {
+      return res.send('NG');
+    }
+    return res.send('OK');
+  }).catch(function(err) {
+    return res.send('NG');
+  });
+});
+
+/*
+// use Promise 1
 app.post('/login', function(req, res) {
   var username = req.body.username;
   var password = req.body.password;
@@ -86,7 +106,7 @@ app.post('/login', function(req, res) {
     return res.send('NG');
   });
 });
-
+*/
 /*
 // use callback
 app.post('/login', function(req, res) {

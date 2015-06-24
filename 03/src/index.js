@@ -3,6 +3,7 @@ var bodyParser = require('body-parser');
 var app = express();
 //var login = require('./model/users');
 var db = require('./model/db');
+var validation = require('../login_form/validation');
 
 // setting
 app.set('views', './views');
@@ -78,17 +79,24 @@ app.post('/login', function(req, res) {
   var username = req.body.username;
   var password = req.body.password;
 
-  var loginDB = new db();
-  loginDB.connect().then(function() {
-    return loginDB.login(username, password);
-  }).then(function(result) {
-    if (!result) {
-      return res.send('NG');
-    }
-    return res.send('OK');
-  }).catch(function(err) {
+  var params = {username: username, password: password};
+  var message = validation.validation(params);
+
+  if (message.length > 0) {
     return res.send('NG');
-  });
+  } else {
+    var loginDB = new db();
+    loginDB.connect().then(function() {
+      return loginDB.login(username, password);
+    }).then(function(result) {
+      if (!result) {
+        return res.send('NG');
+      }
+      return res.send('OK');
+    }).catch(function(err) {
+      return res.send('NG');
+    });
+  }
 });
 
 /*

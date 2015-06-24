@@ -63,5 +63,7 @@ function validation(params) {
   return messages;
 }
 
-
+if (typeof module === 'object') {
+  module.exports.validation = validation;
+}
 

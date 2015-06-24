@@ -72,6 +72,23 @@ app.get('/test', function(req, res) {
   return res.send('NG');
 });
 
+// use Promise
+app.post('/login', function(req, res) {
+  var username = req.body.username;
+  var password = req.body.password;
+
+  login.login(username, password).then(function(result){
+    if (!result) {
+      return res.send('NG');
+    }
+    return res.send('OK');
+  }).catch(function(err) {
+    return res.send('NG');
+  });
+});
+
+/*
+// use callback
 app.post('/login', function(req, res) {
   var username = req.body.username;
   var password = req.body.password;
@@ -87,6 +104,7 @@ app.post('/login', function(req, res) {
     return res.send('OK');
   });
 });
+*/
 
 
 module.exports.app = app;

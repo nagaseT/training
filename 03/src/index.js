@@ -84,19 +84,19 @@ app.post('/login', function(req, res) {
 
   if (message.length > 0) {
     return res.send('NG');
-  } else {
-    var loginDB = new db();
-    loginDB.connect().then(function() {
-      return loginDB.login(username, password);
-    }).then(function(result) {
-      if (!result) {
-        return res.send('NG');
-      }
-      return res.send('OK');
-    }).catch(function(err) {
-      return res.send('NG');
-    });
   }
+  
+  var loginDB = new db();
+  loginDB.connect().then(function() {
+    return loginDB.login(username, password);
+  }).then(function(result) {
+    if (!result) {
+      return res.send('NG');
+    }
+    return res.send('OK');
+  }).catch(function(err) {
+    return res.send('NG');
+  });
 });
 
 /*

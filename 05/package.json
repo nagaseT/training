@@ -1,0 +1,16 @@
+{
+  "name": "registration_and_login",
+  "version": "0.0.0",
+  "description": "registration and login server",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "body-parser": "^1.13.1",
+    "ejs": "^2.3.1",
+    "express": "^4.13.0",
+    "mysql": "^2.7.0",
+    "sequelize": "^3.3.1"
+  }
+}

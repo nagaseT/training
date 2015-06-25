@@ -6,7 +6,7 @@ var db = require('./model/db');
 var validation = require('../login_form/validation');
 var loginDB = new db();
 // setting
-app.set('views', './views');
+app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
 
 //middle ware
@@ -55,9 +55,9 @@ app.post('/submit', function(req, res) {
 
 // GET /ejs
 app.get('/ejs', function(req, res) {
-  //var id = req.query.id;
-  //res.render('index', { id: id });
-  res.redirect('hello');
+  var id = req.query.id;
+  res.render('index', { id: id });
+  //res.redirect('hello');
 });
 
 

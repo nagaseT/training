@@ -28,6 +28,13 @@ sequelize.sync().then(function(result) {
   // まずはデータベースのデータを取得する
   return Users.findAll();
 }).then(function(users) {
+  // 登録されている確認する
+  users.forEach(function(row) {
+    var user = row.get({ plain: true });
+    console.log(user);
+  });
+  return users;
+}).then(function(users) {
   // 1. データベースを全て消す
   var userDestroyPromsise = users.map(function(user) {
     return user.destroy();

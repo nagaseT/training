@@ -1,5 +1,5 @@
+var Sequelize = require('sequelize');
 function DB () {
-  this.Sequelize = require('sequelize');
   this.dbUri = 'mysql://root:password@10.63.82.28:3306/nagase';
   this.sequelize = new this.Sequelize(this.dbUri);
   this.Users = this.sequelize.define('users', {

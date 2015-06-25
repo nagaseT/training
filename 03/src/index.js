@@ -4,7 +4,7 @@ var app = express();
 //var login = require('./model/users');
 var db = require('./model/db');
 var validation = require('../login_form/validation');
-
+var loginDB = new db();
 // setting
 app.set('views', './views');
 app.set('view engine', 'ejs');
@@ -83,10 +83,9 @@ app.post('/login', function(req, res) {
   var message = validation.validation(params);
 
   if (message.length > 0) {
-    return res.send('NG');
+    return res.send(message.join(','));
   }
-  
-  var loginDB = new db();
+
   loginDB.connect().then(function() {
     return loginDB.login(username, password);
   }).then(function(result) {

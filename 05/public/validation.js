@@ -1,34 +1,19 @@
 var USERNAME_CHECK = {
   maxStr: 8,
-  minStr: 2,
-  unallowedCharacters: new RegExp('[^a-z-]', 'g'),
+  minStr: 4,
+  unallowedCharacters: new RegExp('[^a-z-_]', 'g'),
   noInputErrorMessage: 'ERROR : usernameを入力して下さい。',
-  numberErrorMessage: 'ERROR : usernameは2文字以上8文字以下です。',
-  typeErrorMessage: 'ERROR : usernameに使用できるのは英小文字と - のみです。'
+  numberErrorMessage: 'ERROR : usernameは4文字以上8文字以下です。',
+  typeErrorMessage: 'ERROR : usernameに使用できるのは英小文字と - , _ のみです。'
 };
 var PASSWORD_CHECK = {
-  maxStr: 24,
+  maxStr: 8,
   minStr: 6,
-  unallowedCharacters: new RegExp('[^a-zA-Z-\+!@]', 'g'),
+  unallowedCharacters: new RegExp('[^a-zA-Z-\+!@#\*&\^%~]', 'g'),
   noInputErrorMessage: 'ERROR : passwordを入力して下さい。',
-  numberErrorMessage: 'ERROR : passwordは6文字以上24文字以下です。',
-  typeErrorMessage: 'ERROR : passwordに使用できるのは英大小字, -, +, !, @ のみです。'
+  numberErrorMessage: 'ERROR : passwordは6文字以上8文字以下です。',
+  typeErrorMessage: 'ERROR : passwordに使用できるのは英大小字, -, +, !, @ , #, *, &, ^, %, ~ のみです。'
 };
-
-/*
-Username と password を受け取り
-正しいフォーマット化チェックする。
-
-正しかった場合：　空の配列を返す
-正しくなかった場合：　メッセージを入れた配列を返す
-
-使用例：
-var errors = validation({Username: 'aaa', password: 'bbb'});
-if (errors.length > 0) {
-  DOMへの表示処理
-}
-*/
-
 
 function validation(params) {
   var messages = [];

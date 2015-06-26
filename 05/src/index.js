@@ -23,13 +23,11 @@ app.use(BodyParser.urlencoded({extended: true}));
 // ログイン画面
 app.get('/login_form', function(req, res) {
   res.render('login_form');
-  // バリデーション(クライアント側)に引っかかったら遷移せずにエラーを表示させる処理が必要　★
 });
 
 // ユーザ登録画面
 app.get('/registration_form', function(req, res) {
   res.render('registration_form');
-  // バリデーション(クライアント側)に引っかかったら遷移せずにエラーを表示させる処理が必要　★
 });
 
 // 成功画面
@@ -46,6 +44,7 @@ app.post('/login', function(req, res) {
   var username = req.body.username;
   var password = req.body.password;
 
+  //connectする前にバリデーション入れる　★
   db.connect().then(function() {
     return db.login(username, password);
   }).then(function(result) {
@@ -69,6 +68,7 @@ app.post('/registration', function(req, res) {
   var username = req.body.username;
   var password = req.body.password;
 
+  //connectする前にバリデーション入れる　★
   db.connect().then(function() {
     return db.register(username, password);
   }).then(function(result) {

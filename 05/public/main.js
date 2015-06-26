@@ -1,8 +1,16 @@
 window.addEventListener('load', function(e) {
+  var $ele;
   var $login = document.getElementById('login');
+  if($login) {
+    $ele = $login;
+  } else {
+    var $registration = document.getElementById('registration');
+    $ele = $registration;
+  }
+  
   var $errors = document.getElementById('errors');
 
-  $login.addEventListener('submit', function(e){
+  $ele.addEventListener('submit', function(e){
     var username = document.getElementById('username').value;
     var password = document.getElementById('password').value;
     var params = {username: username, password: password};

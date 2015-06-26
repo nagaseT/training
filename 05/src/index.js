@@ -13,6 +13,8 @@ app.set('views', __dirname + '/views');
 // レンダリングエンジンにはejsを使う宣言
 app.set('view engine', 'ejs');
 
+app.use('/public', Express.static('public'));
+
 app.use(BodyParser.urlencoded({extended: true}));
 
 
@@ -30,6 +32,15 @@ app.get('/registration_form', function(req, res) {
   // バリデーション(クライアント側)に引っかかったら遷移せずにエラーを表示させる処理が必要　★
 });
 
+// 成功画面
+app.get('/success', function(req, res) {
+  db.connect().then(function() {
+    return db.getAllUser();
+  }).then(function(resultArr) {
+    res.render('success', { users: resultArr});
+  });
+});
+
 // ログイン処理
 app.post('/login', function(req, res) {
   var username = req.body.username;
@@ -45,8 +56,8 @@ app.post('/login', function(req, res) {
       return res.send('NG');
     }
     // ログイン成功画面を表示するように変更する
-    // res.render('success', {message: 'ログインに成功しました'});
-    return res.send('OK');
+    return res.redirect('success');
+    //return res.send('OK');
   }).catch(function(err) {
     // 画面遷移せず、エラーを出すように変更
     return res.send('NG');
@@ -66,7 +77,8 @@ app.post('/registration', function(req, res) {
       return res.send('NG');
     }
     // 登録成功画面を表示するように変更する
-    return res.send('OK');
+    return res.redirect('success');
+    //return res.send('OK');
   }).catch(function(err) {
     // 画面遷移せず、エラーを出すように変更
     return res.send('NG');

@@ -1,9 +1,9 @@
 var USERNAME_CHECK = {
-  maxStr: 8,
+  maxStr: 6,
   minStr: 4,
   unallowedCharacters: new RegExp('[^a-z-_]', 'g'),
   noInputErrorMessage: 'ERROR : usernameを入力して下さい。',
-  numberErrorMessage: 'ERROR : usernameは4文字以上8文字以下です。',
+  numberErrorMessage: 'ERROR : usernameは4文字以上6文字以下です。',
   typeErrorMessage: 'ERROR : usernameに使用できるのは英小文字と - , _ のみです。'
 };
 var PASSWORD_CHECK = {
@@ -15,7 +15,11 @@ var PASSWORD_CHECK = {
   typeErrorMessage: 'ERROR : passwordに使用できるのは英大小字, -, +, !, @ , #, *, &, ^, %, ~ のみです。'
 };
 
-function validation(params) {
+
+//function Valid () {;}
+
+function validationS(params) {
+//Valid.prototype.validationS = function (params) {
   var messages = [];
 
   var username = params.username;
@@ -49,7 +53,5 @@ function validation(params) {
   return messages;
 }
 
-
-if (typeof module === 'object') {
-  module.exports.validation = validation;
-}
+//module.exports = Valid;
+module.exports.validationS = validationS;

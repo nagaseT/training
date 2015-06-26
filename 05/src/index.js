@@ -7,6 +7,8 @@ var Config = require('./../config');
 var DataBase = require('./model/db'); // db.jsのコンストラクタ(DB())が入る
 var db = new DataBase(Config.config.mysql);
 
+var validation = require('./../public/validation').validation;
+
 // setting
 // レンダリングするファイルの置き場所
 app.set('views', __dirname + '/views');
@@ -22,12 +24,12 @@ app.use(BodyParser.urlencoded({extended: true}));
 
 // ログイン画面
 app.get('/login_form', function(req, res) {
-  res.render('login_form');
+  res.render('login_form', {message: null});
 });
 
 // ユーザ登録画面
 app.get('/registration_form', function(req, res) {
-  res.render('registration_form');
+  res.render('registration_form', {message: null});
 });
 
 // 成功画面
@@ -44,23 +46,25 @@ app.post('/login', function(req, res) {
   var username = req.body.username;
   var password = req.body.password;
 
-  //connectする前にバリデーション入れる　★
-  db.connect().then(function() {
-    return db.login(username, password);
-  }).then(function(result) {
-    if (!result) {
-      // ログイン画面に戻り、エラーを出すように変更
-      // res.render('success', {message: 'ログインに失敗しました'});
-      // エラー内容出す？
-      return res.send('NG');
-    }
-    // ログイン成功画面を表示するように変更する
-    return res.redirect('success');
-    //return res.send('OK');
-  }).catch(function(err) {
-    // 画面遷移せず、エラーを出すように変更
-    return res.send('NG');
-  });
+  var params = {username: username, password: password};
+  var valErrorMessage = validation(params);
+  if (valErrorMessage.length > 0){
+    return res.redirect('/login_form');
+  } else {
+    db.connect().then(function() {
+      return db.login(username, password);
+    }).then(function(result) {
+      if (!result) {
+        return res.render('login_form', { message: 'ログインに失敗しました。' });
+      }
+      // ログイン成功画面を表示するように変更する
+      return res.redirect('/success');
+      //return res.send('OK');
+    }).catch(function(err) {
+      // 画面遷移せず、エラーを出すように変更
+      return res.render('login_form', { message: 'ログインに失敗しました。' });
+    });
+  }
 });
 
 // ユーザ登録処理
@@ -68,21 +72,22 @@ app.post('/registration', function(req, res) {
   var username = req.body.username;
   var password = req.body.password;
 
-  //connectする前にバリデーション入れる　★
-  db.connect().then(function() {
-    return db.register(username, password);
-  }).then(function(result) {
-    if (!result) {
-      // 画面遷移せず、エラーを出すように変更
-      return res.send('NG');
-    }
-    // 登録成功画面を表示するように変更する
-    return res.redirect('success');
-    //return res.send('OK');
-  }).catch(function(err) {
-    // 画面遷移せず、エラーを出すように変更
-    return res.send('NG');
-  });
+  var params = {username: username, password: password};
+  var valErrorMessage = validation(params);
+  if (valErrorMessage.length > 0){
+    return res.redirect('/registration_form');
+  } else {
+    db.connect().then(function() {
+      return db.register(username, password);
+    }).then(function(result) {
+      if (!result) {
+        return res.render('registration_form', { message: username + 'はすでに使われています。' });
+      }
+      return res.redirect('success');
+    }).catch(function(err) {
+      return res.render('registration_form', { message: 'アカウントの登録に失敗しました。' });
+    });
+  }
 });
 
 module.exports.app = app;

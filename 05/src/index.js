@@ -37,7 +37,8 @@ app.get('/success', function(req, res) {
   db.connect().then(function() {
     return db.getAllUser();
   }).then(function(resultArr) {
-    res.render('success', { users: resultArr});
+    var sortResultArr = resultArr.sort(); // アルファベット順にソート
+    res.render('success', { users: sortResultArr});
   });
 });
 

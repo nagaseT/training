@@ -35,8 +35,9 @@ app.get('/registration_form', function(req, res) {
 // 成功画面
 app.get('/success', function(req, res) {
   db.connect().then(function() {
-    return db.getAllUser();
+    return db.getAllUser(); // order by で並べ替え
   }).then(function(resultArr) {
+    // SQL 結果を JS で並べ替えない, SQL でやる
     var sortResultArr = resultArr.sort(function(a, b){
       var x = a.username;
       var y = b.username;
@@ -57,11 +58,12 @@ app.post('/login', function(req, res) {
   var valErrorMessage = validation(params);
   if (valErrorMessage.length > 0){
     return res.redirect('/login_form');
-  } else {
+  } else { // else 不要
     db.connect().then(function() {
       return db.login(username, password);
     }).then(function(result) {
       if (!result) {
+        // status code
         return res.render('login_form', { message: 'ログインに失敗しました。' });
       }
       // ログイン成功画面を表示するように変更する
@@ -83,7 +85,7 @@ app.post('/registration', function(req, res) {
   var valErrorMessage = validation(params);
   if (valErrorMessage.length > 0){
     return res.redirect('/registration_form');
-  } else {
+  } else { // else 不要
     db.connect().then(function() {
       return db.register(username, password);
     }).then(function(result) {

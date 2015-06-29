@@ -10,7 +10,7 @@
   <h3>User List</h3>
   <ul id="user_list">
     <% users.forEach(function(user) { %>
-      <li><%= user.username %></li>
+      <li><a href="localhost:3000/user?username=<%= user.username %>"><%= user.username %></a></li>
     <% }) %>
   </ul>
 </body>

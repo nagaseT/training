@@ -85,6 +85,7 @@ app.post('/registration', function(req, res) {
   db.connect().then(function() {
     return db.register(username, password);
   }).then(function() {
+    req.session.username = username;
     return res.status(200).redirect('main');
   }).catch(function(err) {  // save()に失敗した場合と、すでに登録済みのusernameを登録しようとした場合がある
     //return res.status(400).render('registration_form', { errors: [err] });

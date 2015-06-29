@@ -1,10 +1,6 @@
 var user_data = [
-  { username: 'soneda' , password: 'aaaaaa'},
-  { username: 'b' , password: 'b@@'},
-  { username: 'c' , password: 'c@@'},
-  { username: 'd' , password: 'd@@'},
-  { username: 'e' , password: 'e@@'},
-  { username: 'nagase' , password: 'aaaaaa'},
+  { username: 'soneda' , password: 'soneda'},
+  { username: 'miyamoto' , password: 'miyamoto'},
 ]
 
 var Sequelize = require('sequelize');

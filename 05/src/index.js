@@ -1,5 +1,6 @@
 var Express = require('express');
 var BodyParser = require('body-parser');
+var session = require('express-session');
 var app = Express();
 
 var Config = require('./../config');
@@ -15,10 +16,11 @@ var validation = require('./../public/validationS').validation;
 app.set('views', __dirname + '/views');
 // レンダリングエンジンにはejsを使う宣言
 app.set('view engine', 'ejs');
-
 app.use('/public', Express.static('public'));
-
 app.use(BodyParser.urlencoded({extended: true}));
+app.use(session({
+  secret: 'vcp training server'
+}));
 
 
 // routing(req -> res)
@@ -38,7 +40,11 @@ app.get('/main', function(req, res) {
   db.connect().then(function() {
     return db.getAllUser();
   }).then(function(resultArr) {
-    res.status(200).render('main', { users: resultArr});
+    var loginUser = req.session.username;
+    res.status(200).render('main', {
+      users: resultArr,
+      loginUser: loginUser
+    });
   });
 });
 
@@ -58,6 +64,8 @@ app.post('/login', function(req, res) {
     if (!result) {
       return res.status(400).render('login_form', { errors: result });
     }
+    // ここでセッションに追加する　★
+    req.session.username = username;
     return res.status(200).redirect('/main');
   }).catch(function(err) {
     return res.status(500).render('login_form', { errors: [err] });
@@ -79,7 +87,8 @@ app.post('/registration', function(req, res) {
   }).then(function() {
     return res.status(200).redirect('main');
   }).catch(function(err) {  // save()に失敗した場合と、すでに登録済みのusernameを登録しようとした場合がある
-    return res.status(400).render('registration_form', { errors: [err] });
+    //return res.status(400).render('registration_form', { errors: [err] });
+    return res.status(400).render('registration_form', { errors: ['登録失敗だす'] });
   });
 });
 

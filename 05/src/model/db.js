@@ -29,22 +29,11 @@ DB.prototype.login = function(username, password) {
 }
 
 DB.prototype.register = function(username, password) {
-  var self = this;  // thenの中でthisが参照できないので、selfを定義する必要がある
-  var isRegister = true;
-  return self.Users.findOne({ where: {username: username}
-  }).then(function(user) {
-    if (user) {
-      isRegister = false
-      return isRegister;
-    }
-    var saveUser = self.Users.build({
-      username: username,
-      password: password
-    });
-    return saveUser.save();
-  }).then(function(isRegister) {
-    return isRegister;
+  var saveUser = this.Users.build({
+    username: username,
+    password: password
   });
+  return saveUser.save();
 }
 
 

@@ -36,7 +36,7 @@ DB.prototype.register = function(username, password) {
     if (user) {
       isRegister = false;
       return isRegister;
-    }
+    } // indent
       var saveUser = self.Users.build({
         username: username,
         password: password

@@ -55,7 +55,7 @@ app.post('/login', function(req, res) {
 
   var params = {username: username, password: password};
   var valErrorMessage = validation(params);
-  if (valErrorMessage.length > 0){
+  if (valErrorMessage.length > 0){ // このエラーも表示する
     return res.redirect('/login_form');
   } else {
     db.connect().then(function() {

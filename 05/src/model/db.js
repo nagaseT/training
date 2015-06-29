@@ -28,21 +28,30 @@ DB.prototype.login = function(username, password) {
   });
 }
 
+// 1. register できなかった -> 失敗ととらえ
+// user がすでにいたら Error を作って reject する
+//
+// 2. select -> insert の間に他の人に insert されたら？
+//    1. transaction を使う
+//    2. insert の正否で存在の有無を確認(user が unique な場合)
 DB.prototype.register = function(username, password) {
   var self = this;  // thenの中でthisが参照できないので、selfを定義する必要がある
-  var isRegister = true;
+  var isRegister = true; // 不要?
   return self.Users.findOne({ where: {username: username}
   }).then(function(user) {
     if (user) {
-      isRegister = false;
+      var isRegister = false;
       return isRegister;
     }
       var saveUser = self.Users.build({
         username: username,
         password: password
       });
-      return saveUser.save();
-  }).then(function() {
+      return saveUser.save(); // 同じ Promise のリターンの型が違う(Promise / boole)ので、そろえた方が良い
+  }).then(function(isRegister) {
+    if (isRegister === undefined) { // ここで取り分ける必要
+      return true;
+    }
     return isRegister;
   });
 }

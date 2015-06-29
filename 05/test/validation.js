@@ -19,39 +19,39 @@ describe('validation normal', function() {
 describe('validation abnormal', function() {
   it('username: nothing, password: nothing', function() {
     var params = {username: '', password: ''};
-    var expect = ['ERROR : usernameを入力して下さい。', 'ERROR : passwordを入力して下さい。'];
+    var expect = ['usernameを入力して下さい。', 'passwordを入力して下さい。'];
     var results = Validation.validation(params);
     assert.deepEqual(results, expect);
   });
 
   it('username: under min, password: normal', function() {
     var params = {username: 'abc', password: 'abcdef'};
-    var expect = ['ERROR : usernameは4文字以上8文字以下です。'];
+    var expect = ['usernameは4文字以上8文字以下です。'];
     var results = Validation.validation(params);
     assert.deepEqual(results, expect);
   });
   it('username: normal, password: under min', function() {
     var params = {username: 'abcd', password: 'abcde'};
-    var expect = ['ERROR : passwordは6文字以上8文字以下です。'];
+    var expect = ['passwordは6文字以上8文字以下です。'];
     var results = Validation.validation(params);
     assert.deepEqual(results, expect);
   });
   it('username: under min, password: under min', function() {
     var params = {username: 'abc', password: 'abcde'};
-    var expect = ['ERROR : usernameは4文字以上8文字以下です。', 'ERROR : passwordは6文字以上8文字以下です。'];
+    var expect = ['usernameは4文字以上8文字以下です。', 'passwordは6文字以上8文字以下です。'];
     var results = Validation.validation(params);
     assert.deepEqual(results, expect);
   });
   it('username: over max, password: over max', function() {
     var params = {username: 'abcdefghi', password: 'abcdefghi'};
-    var expect = ['ERROR : usernameは4文字以上8文字以下です。', 'ERROR : passwordは6文字以上8文字以下です。'];
+    var expect = ['usernameは4文字以上8文字以下です。', 'passwordは6文字以上8文字以下です。'];
     var results = Validation.validation(params);
     assert.deepEqual(results, expect);
   });
 
   it('username: unauthorized character, password: unauthorized character', function() {
     var params = {username: '?b-_', password: 'aB-+!?'};
-    var expect = ['ERROR : usernameに使用できるのは英小文字と - , _ のみです。', 'ERROR : passwordに使用できるのは英大小字, -, +, !, @ , #, *, &, ^, %, ~ のみです。'];
+    var expect = ['usernameに使用できるのは英小文字と - , _ のみです。', 'passwordに使用できるのは英大小字, -, +, !, @ , #, *, &, ^, %, ~ のみです。'];
     var results = Validation.validation(params);
     assert.deepEqual(results, expect);
   });

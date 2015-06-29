@@ -6,8 +6,8 @@ window.addEventListener('load', function(e) {
   $registration.addEventListener('submit', function(e){
     var username = document.getElementById('username').value;
     var password = document.getElementById('password').value;
-    var password_2 = document.getElementById('password_2').value;
-    var params = {username: username, password: password, password_2: password_2};
+    var password_confirm = document.getElementById('password_confirm').value;
+    var params = {username: username, password: password, password_confirm: password_confirm};
 
     while($errors.firstChild) {
       $errors.removeChild($errors.firstChild);

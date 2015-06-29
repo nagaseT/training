@@ -8,7 +8,7 @@ var USERNAME_CHECK = {
 };
 var PASSWORD_CHECK = {
   maxStr: 8,
-  minStr: 6,
+  minStr: 7,
   unallowedCharacters: new RegExp('[^a-zA-Z-\+!@#\*&\^%~]', 'g'),
   noInputErrorMessage: 'passwordを入力して下さい。',
   numberErrorMessage: 'passwordは6文字以上8文字以下です。',

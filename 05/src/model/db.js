@@ -34,24 +34,23 @@ DB.prototype.register = function(username, password) {
   return self.Users.findOne({ where: {username: username}
   }).then(function(user) {
     if (user) {
-      isRegister = false;
+      isRegister = false
       return isRegister;
     }
-      var saveUser = self.Users.build({
-        username: username,
-        password: password
-      });
-      return saveUser.save();
-  }).then(function() {
+    var saveUser = self.Users.build({
+      username: username,
+      password: password
+    });
+    return saveUser.save();
+  }).then(function(isRegister) {
     return isRegister;
   });
 }
 
 
 DB.prototype.getAllUser = function() {
-  // DBに登録されている全てのユーザを取得し、返す
   var self = this;
-  return self.Users.findAll().then(function(users){
+  return self.Users.findAll({order : "username"}).then(function(users){
     var usersArr = users.map(function(user) {
       return user.get({ plain: true });
     });

@@ -6,10 +6,12 @@
   <script src="./public/login.js"></script>
 </head>
 <body>
-  <h1><strong>Login</strong></h1>
+  <h1>Login</h1>
   <form id="login" action="/login" method="post">
     <ul id="errors">
-      <p><%= message %></p>
+      <% errors.forEach(function(error) { %>
+        <li><%= error %></li>
+      <% }) %>
     </ul>
     <label for="username">UserName :</label>
     <input id="username" type="text" name="username"/>

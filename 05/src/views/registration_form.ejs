@@ -6,10 +6,12 @@
   <script src="./public/registration.js"></script>
 </head>
 <body>
-  <h1><strong>User Registration</strong></h1>
+  <h1>User Registration</h1>
   <form id="registration" action="/registration" method="post">
     <ul id="errors">
-      <p><%= message %></p>
+      <% errors.forEach(function(error) { %>
+        <li><%= error %></li>
+      <% }) %>
     </ul>
     <label for="username">UserName :</label>
     <input id="username" type="text" name="username"/>
@@ -17,8 +19,8 @@
     <label for="password">Password :</label>
     <input id="password" type="password" name="password"/>
 
-    <label for="password_2">Password :</label>
-    <input id="password_2" type="password" name="password_2"/>
+    <label for="password_confirm">Password :</label>
+    <input id="password_confirm" type="password" name="password_confirm"/>
 
     <input id="ok" type="submit" value="ok"/>
   </form>

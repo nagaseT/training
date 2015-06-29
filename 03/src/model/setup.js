@@ -4,6 +4,7 @@ var user_data = [
   { username: 'c' , password: 'c@@'},
   { username: 'd' , password: 'd@@'},
   { username: 'e' , password: 'e@@'},
+  { username: 'nagase' , password: 'aaaaaa'},
 ]
 
 var Sequelize = require('sequelize');

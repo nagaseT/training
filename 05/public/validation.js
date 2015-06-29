@@ -1,11 +1,11 @@
 var USERNAME_CHECK = {
   maxStr: 8,
   minStr: 4,
-  unallowedCharacters: new RegExp('[^a-z-_]', 'g'),
+  unallowedCharacters: new RegExp('[^a-z-_]', 'g'), // new Array, new RegExp, new Number, new String は直書きするときは基本使わない
   noInputErrorMessage: 'ERROR : usernameを入力して下さい。',
   numberErrorMessage: 'ERROR : usernameは4文字以上8文字以下です。',
   typeErrorMessage: 'ERROR : usernameに使用できるのは英小文字と - , _ のみです。'
-};
+}; // 改行
 var PASSWORD_CHECK = {
   maxStr: 8,
   minStr: 6,
@@ -49,7 +49,7 @@ function validation(params) {
   return messages;
 }
 
-function passCheck(params) {
+function passCheck(params) { // `check` は避けより適切な名前をはっきりつける
   var message = [];
   var password_1 = params.password;
   var password_2 = params.password_2;

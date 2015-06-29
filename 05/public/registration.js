@@ -1,33 +1,29 @@
 window.addEventListener('load', function(e) {
-  var $ele;
-  var $login = document.getElementById('login');
-  if($login) {
-    $ele = $login;
-  } else {
-    var $registration = document.getElementById('registration');
-    $ele = $registration;
-  }
+  var $registration = document.getElementById('registration');
   
   var $errors = document.getElementById('errors');
 
-  $ele.addEventListener('submit', function(e){
+  $registration.addEventListener('submit', function(e){
     var username = document.getElementById('username').value;
     var password = document.getElementById('password').value;
-    var params = {username: username, password: password};
+    var password_2 = document.getElementById('password_2').value;
+    var params = {username: username, password: password, password_2: password_2};
 
     while($errors.firstChild) {
       $errors.removeChild($errors.firstChild);
     }
 
     var results = validation(params);
+    var passCheckResult = passCheck(params);
+    var errorMessages = results.concat(passCheckResult);
 
-    if (results.length > 0) {
+    if (errorMessages.length > 0) {
       e.preventDefault();
 
-      var length = results.length;
+      var length = errorMessages.length;
       for (var i = 0; i < length; i++) {
         var $strong = document.createElement('strong');
-        $strong.textContent = results[i];  // <strong>username is empty</strong>
+        $strong.textContent = errorMessages[i];  // <strong>username is empty</strong>
 
         var $li = document.createElement('li'); // <li></li>
         $li.appendChild($strong);

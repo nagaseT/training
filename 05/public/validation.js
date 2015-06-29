@@ -49,6 +49,16 @@ function validation(params) {
   return messages;
 }
 
+function passCheck(params) {
+  var message = [];
+  var password_1 = params.password;
+  var password_2 = params.password_2;
+  if (password_1 !== password_2) {
+    message.push('ERROR : 入力されたパスワードが異なります。同じパスワードを入力して下さい。');
+  }
+  return message;
+}
+
 
 if (typeof module === 'object') {
   module.exports.validation = validation;

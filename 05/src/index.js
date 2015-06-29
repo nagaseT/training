@@ -37,7 +37,13 @@ app.get('/success', function(req, res) {
   db.connect().then(function() {
     return db.getAllUser();
   }).then(function(resultArr) {
-    var sortResultArr = resultArr.sort(); // アルファベット順にソート
+    var sortResultArr = resultArr.sort(function(a, b){
+      var x = a.username;
+      var y = b.username;
+      if (x > y) return 1;
+      if (x < y) return -1;
+      return 0;
+    });
     res.render('success', { users: sortResultArr});
   });
 });

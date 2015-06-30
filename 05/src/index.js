@@ -8,8 +8,7 @@ var Config = require('./../config');
 var DataBase = require('./model/db'); // db.jsのコンストラクタ(DB())が入る
 var db = new DataBase(Config.config.mysql);
 
-//var validation = require('./../public/validation').validation;
-var validation = require('./../public/validationS').validation;
+var validation = require('./../public/validation').validation;
 
 // setting
 // レンダリングするファイルの置き場所
@@ -26,36 +25,50 @@ app.use(session({
 // routing(req -> res)
 
 // ログイン画面
-app.get('/login_form', function(req, res) {
-  res.status(200).render('login_form', {errorMessages: []});
+app.get('/login', function(req, res) {
+  return res.status(200).render('login', {errorMessages: []});
 });
 
 // ユーザ登録画面
-app.get('/registration_form', function(req, res) {
-  res.status(200).render('registration_form', {errorMessages: []});
+app.get('/registration', function(req, res) {
+  res.status(200).render('registration', {errorMessages: []});
+});
+
+// ユーザ登録画面
+app.get('/illegal_access', function(req, res) {
+  res.status(200).render('illegal_access', {errorMessages: ['ログインして下さい。']});
 });
 
 // 成功画面
 app.get('/main', function(req, res) {
-  db.connect().then(function() {
-    return db.getAllUser();
-  }).then(function(resultArr) {
-    var loginUser = req.session.username;
-    res.status(200).render('main', {
-      users: resultArr,
-      loginUser: loginUser
+  if (req.session.username) {
+    db.connect().then(function() {
+      return db.getAllUser();
+    }).then(function(resultArr) {
+      var loginUser = req.session.username;
+      res.status(200).render('main', {
+        users: resultArr,
+        loginUser: loginUser
+      });
     });
-  });
+    return;
+  }
+  return res.status(302).redirect('/illegal_access');
 });
 
 // 登録ユーザ情報表示画面
 app.get('/user', function(req, res) {
-  var username = req.query.username;
-  var loginUser = req.session.username;
-  res.status(200).render('user', {
-    loginUser: loginUser,
-    username: username
-  });
+  if (req.session.username) {
+    var username = req.query.username;
+    var loginUser = req.session.username;
+    res.status(200).render('user', {
+      loginUser: loginUser,
+      username: username
+    });
+    return;
+  }
+  console.log('statusCode : ' + req.statusCode);
+  return res.status(302).redirect('/illegal_access');
 });
 
 // ログイン処理
@@ -66,20 +79,18 @@ app.post('/login', function(req, res) {
   var params = {username: username, password: password};
   var valErrorMessage = validation(params);
   if (valErrorMessage.length > 0){
-    return res.status(400).render('login_form', { errorMessages: valErrorMessage });
+    return res.status(400).render('login', { errorMessages: valErrorMessage });
   }
   db.connect().then(function() {
     return db.login(username, password);
   }).then(function(result) {
     if (!result) {
-      return res.status(400).render('login_form', { errorMessages: ['passwordが違います。'] });
+      return res.status(400).render('login', { errorMessages: ['passwordが違います。'] });
     }
-    // ここでセッションに追加する　★
-    console.log(req.session);
     req.session.username = username;
     return res.status(200).redirect('/main');
   }).catch(function(err) {
-    return res.status(500).render('login_form', { errorMessages: [err] });
+    return res.status(500).render('login', { errorMessages: [err] });
   });
 });
 
@@ -98,16 +109,17 @@ app.post('/registration', function(req, res) {
   var params = {username: username, password: password};
   var valErrorMessage = validation(params);
   if (valErrorMessage.length > 0){
-    return res.status(400).render('registration_form', { errorMessages: valErrorMessage });
+    return res.status(400).render('registration', { errorMessages: valErrorMessage });
   }
   db.connect().then(function() {
     return db.register(username, password);
   }).then(function() {
     req.session.username = username;
+    req.session.flg = true;
     return res.status(200).redirect('main');
   }).catch(function(err) {  // save()に失敗した場合と、すでに登録済みのusernameを登録しようとした場合がある
-    //return res.status(400).render('registration_form', { errors: [err] });
-    return res.status(400).render('registration_form', { errorMessages: ['登録失敗だす'] });
+    //return res.status(400).render('registration', { errors: [err] });
+    return res.status(400).render('registration', { errorMessages: ['登録失敗だす'] });
   });
 });
 

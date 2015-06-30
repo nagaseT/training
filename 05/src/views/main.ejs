@@ -4,8 +4,11 @@
   <title>main</title>
 </head>
 <body>
+  <div Align="right">
+    <p><strong><%= loginUser %></strong> でログイン中</p>
+    <input type="button" value="ログアウト" onclick="location.href='/logout'"></input>
+  </div>
   <h1>Main</h1>
-  <p><strong><%= loginUser %></strong> でログイン中</p>
   <h3>User List</h3>
   <ul id="user_list">
     <% users.forEach(function(user) { %>

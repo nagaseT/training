@@ -4,10 +4,12 @@
   <title>user</title>
 </head>
 <body>
+  <div Align="right">
+    <p><strong><%= loginUser %></strong> でログイン中</p>
+    <input type="button" value="ログアウト" onclick="location.href='/logout'"></input>
+  </div>
   <h1>User Info</h1>
-  <p><strong><%= loginUser %></strong> でログイン中</p>
   <h3>User Name</h3>
     <p><%= username %></p>
-  <button type="button" onclick="location.href='/main'">メインへ</button>
-  <button type="button" onclick="location.href='/logout'">ログアウト</button>
+  <input type="button" value="メインへ" onclick="location.href='/main'"></input>
 </body>

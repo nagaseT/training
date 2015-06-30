@@ -27,12 +27,12 @@ app.use(session({
 
 // ログイン画面
 app.get('/login_form', function(req, res) {
-  res.status(200).render('login_form', {errors: []});
+  res.status(200).render('login_form', {errorMessages: []});
 });
 
 // ユーザ登録画面
 app.get('/registration_form', function(req, res) {
-  res.status(200).render('registration_form', {errors: []});
+  res.status(200).render('registration_form', {errorMessages: []});
 });
 
 // 成功画面
@@ -48,6 +48,16 @@ app.get('/main', function(req, res) {
   });
 });
 
+// 登録ユーザ情報表示画面
+app.get('/user', function(req, res) {
+  var username = req.query.username;
+  var loginUser = req.session.username;
+  res.status(200).render('user', {
+    loginUser: loginUser,
+    username: username
+  });
+});
+
 // ログイン処理
 app.post('/login', function(req, res) {
   var username = req.body.username;
@@ -56,19 +66,27 @@ app.post('/login', function(req, res) {
   var params = {username: username, password: password};
   var valErrorMessage = validation(params);
   if (valErrorMessage.length > 0){
-    return res.status(400).render('login_form', { errors: valErrorMessage });
+    return res.status(400).render('login_form', { errorMessages: valErrorMessage });
   }
   db.connect().then(function() {
     return db.login(username, password);
   }).then(function(result) {
     if (!result) {
-      return res.status(400).render('login_form', { errors: result });
+      return res.status(400).render('login_form', { errorMessages: ['passwordが違います。'] });
     }
     // ここでセッションに追加する　★
+    console.log(req.session);
     req.session.username = username;
     return res.status(200).redirect('/main');
   }).catch(function(err) {
-    return res.status(500).render('login_form', { errors: [err] });
+    return res.status(500).render('login_form', { errorMessages: [err] });
+  });
+});
+
+// ログアウト処理
+app.get('/logout', function(req, res) {
+  req.session.destroy(function() {
+    return res.status(200).render('logout');
   });
 });
 
@@ -80,7 +98,7 @@ app.post('/registration', function(req, res) {
   var params = {username: username, password: password};
   var valErrorMessage = validation(params);
   if (valErrorMessage.length > 0){
-    return res.status(400).render('registration_form', { errors: valErrorMessage });
+    return res.status(400).render('registration_form', { errorMessages: valErrorMessage });
   }
   db.connect().then(function() {
     return db.register(username, password);
@@ -89,7 +107,7 @@ app.post('/registration', function(req, res) {
     return res.status(200).redirect('main');
   }).catch(function(err) {  // save()に失敗した場合と、すでに登録済みのusernameを登録しようとした場合がある
     //return res.status(400).render('registration_form', { errors: [err] });
-    return res.status(400).render('registration_form', { errors: ['登録失敗だす'] });
+    return res.status(400).render('registration_form', { errorMessages: ['登録失敗だす'] });
   });
 });
 

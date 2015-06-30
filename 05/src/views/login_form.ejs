@@ -9,7 +9,7 @@
   <h1>Login</h1>
   <form id="login" action="/login" method="post">
     <ul id="errors">
-      <% errors.forEach(function(error) { %>
+      <% errorMessages.forEach(function(error) { %>
         <li><%= error %></li>
       <% }) %>
     </ul>

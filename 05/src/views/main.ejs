@@ -5,12 +5,11 @@
 </head>
 <body>
   <h1>Main</h1>
-  <h3>Login User</h3>
-    <p><%= loginUser %></p>
+  <p><strong><%= loginUser %></strong> でログイン中</p>
   <h3>User List</h3>
   <ul id="user_list">
     <% users.forEach(function(user) { %>
-      <li><a href="localhost:3000/user?username=<%= user.username %>"><%= user.username %></a></li>
+      <li><a href="/user?username=<%= user.username %>"><%= user.username %></a></li>
     <% }) %>
   </ul>
 </body>

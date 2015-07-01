@@ -8,11 +8,13 @@
 <body>
   <h1>Login</h1>
   <form id="login" action="/login" method="post">
-    <ul id="errors">
-      <% errorMessages.forEach(function(error) { %>
-        <li><%= error %></li>
-      <% }) %>
-    </ul>
+    <% if(errorMessages) { %>
+      <ul id="errors">
+        <% errorMessages.forEach(function(error) { %>
+          <li><%= error %></li>
+        <% }) %>
+      </ul>
+    <% } %>
     <label for="username">UserName :</label>
     <input id="username" type="text" name="username"/>
 

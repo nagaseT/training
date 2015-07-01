@@ -4,8 +4,9 @@
   "description": "registration and login server",
   "main": "index.js",
   "scripts": {
-    "test": "mocha test\\validation.js",
-    "start": "node index.js"
+    "test": "npm run lint & mocha test\\validation.js",
+    "start": "node index.js",
+    "lint" : "eslint /src/*.js"
   },
   "dependencies": {
     "body-parser": "^1.13.1",

@@ -1,2 +1,5 @@
 node_modules
 config.js
+public\login.js
+public\registration.js
+public\validation.js

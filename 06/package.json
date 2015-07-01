@@ -5,8 +5,12 @@
   "main": "index.js",
   "scripts": {
     "test": "npm run lint & mocha test\\validation.js",
-    "start": "node index.js",
-    "lint": "eslint /src/*.js"
+    "start": "npm run babel_login && npm run babel_registration && npm run babel_validation && babel-node index.js",
+    "lint": "eslint /src/*.js",
+    "babel_login": "babel public\\login.es6.js -o public\\login.js",
+    "babel_registration": "babel public\\registration.es6.js -o public\\registration.js",
+    "babel_validation": "babel public\\validation.es6.js -o public\\validation.js"
+
 },
   "dependencies": {
     "body-parser": "^1.13.1",

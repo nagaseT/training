@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<head>
+  <meta charset="utf-8">
+  <title>illegal access</title>
+</head>
+<body>
+  <ul id="errors">
+    <% errorMessages.forEach(function(error) { %>
+      <li><%= error %></li>
+    <% }) %>
+  </ul>
+  <button type="button" onclick="location.href='/login'">ログインへ</button>
+</body>

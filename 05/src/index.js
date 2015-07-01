@@ -2,6 +2,7 @@ var Express = require('express');
 var BodyParser = require('body-parser');
 var session = require('express-session');
 var app = Express();
+var helpers = require('express-helpers')(app);
 
 var Config = require('./../config');
 

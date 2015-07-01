@@ -1,4 +1,4 @@
-var USERNAME_CHECK = {
+const USERNAME_CHECK = {
   maxStr: 8,
   minStr: 4,
   unallowedCharacters: new RegExp('[^a-z-_]', 'g'),
@@ -6,7 +6,7 @@ var USERNAME_CHECK = {
   numberErrorMessage: 'usernameは4文字以上8文字以下です。',
   typeErrorMessage: 'usernameに使用できるのは英小文字と - , _ のみです。'
 };
-var PASSWORD_CHECK = {
+const PASSWORD_CHECK = {
   maxStr: 8,
   minStr: 6,
   unallowedCharacters: new RegExp('[^a-zA-Z-\+!@#\*&\^%~]', 'g'),
@@ -16,31 +16,31 @@ var PASSWORD_CHECK = {
 };
 
 function validation(params) {
-  var messages = [];
+  let messages = [];
 
-  var username = params.username;
-  var usernameLength = username.length;
+  let username = params.username;
+  let usernameLength = username.length;
   if (usernameLength === 0) {
     messages.push(USERNAME_CHECK.noInputErrorMessage);
   } else {
     if (usernameLength < USERNAME_CHECK.minStr || USERNAME_CHECK.maxStr < usernameLength) {
       messages.push(USERNAME_CHECK.numberErrorMessage);
     }
-    var usernameMatching = username.match(USERNAME_CHECK.unallowedCharacters);
+    let usernameMatching = username.match(USERNAME_CHECK.unallowedCharacters);
     if (usernameMatching){
       messages.push(USERNAME_CHECK.typeErrorMessage);
     }
   }
 
-  var password = params.password;
-  var passwordLength = password.length;
+  let password = params.password;
+  let passwordLength = password.length;
   if (passwordLength === 0) {
     messages.push(PASSWORD_CHECK.noInputErrorMessage);
   } else {
     if (passwordLength < PASSWORD_CHECK.minStr || PASSWORD_CHECK.maxStr < passwordLength) {
       messages.push(PASSWORD_CHECK.numberErrorMessage);
     }
-    var passwordMatching = password.match(PASSWORD_CHECK.unallowedCharacters);
+    let passwordMatching = password.match(PASSWORD_CHECK.unallowedCharacters);
     if (passwordMatching){
       messages.push(PASSWORD_CHECK.typeErrorMessage);
     }
@@ -50,9 +50,9 @@ function validation(params) {
 }
 
 function isPasswordEqual(params) {  // confermationが成功したかをチェックする関数名
-  var message = [];
-  var password = params.password;
-  var password_confirm = params.password_confirm;
+  let message = [];
+  let password = params.password;
+  let password_confirm = params.password_confirm;
   if (password !== password_confirm) {
     message.push('入力されたパスワードが異なります。同じパスワードを入力して下さい。');
   }

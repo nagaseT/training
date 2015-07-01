@@ -38,8 +38,7 @@ DB.prototype.register = function(username, password) {
 
 
 DB.prototype.getAllUser = function() {
-  var self = this;
-  return self.Users.findAll({order : "username"}).then(function(users){
+  return this.Users.findAll({order : "username"}).then(function(users){
     var usersArr = users.map(function(user) {
       return user.get({ plain: true });
     });

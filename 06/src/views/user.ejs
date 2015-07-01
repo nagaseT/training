@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<head>
+  <meta charset="utf-8">
+  <title>user</title>
+</head>
+<body>
+  <div Align="right">
+    <p><strong><%= loginUser %></strong> でログイン中</p>
+    <input type="button" value="ログアウト" onclick="location.href='/logout'"></input>
+  </div>
+  <h1>User Info</h1>
+  <h3>User Name</h3>
+    <p><%= username %></p>
+  <input type="button" value="メインへ" onclick="location.href='/main'"></input>
+</body>

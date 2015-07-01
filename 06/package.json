@@ -7,7 +7,7 @@
     "test": "npm run lint & mocha test\\validation.js",
     "start": "node index.js",
     "lint": "eslint /src/*.js"
-  },
+},
   "dependencies": {
     "body-parser": "^1.13.1",
     "ejs": "^2.3.1",

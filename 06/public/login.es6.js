@@ -1,12 +1,12 @@
-window.addEventListener('load', function(e) {
+window.addEventListener('load', (e) => {
   let $login = document.getElementById('login');
   
   let $errors = document.getElementById('errors');
 
-  $login.addEventListener('submit', function(e){
+  $login.addEventListener('submit', (e) => {
     let username = document.getElementById('username').value;
     let password = document.getElementById('password').value;
-    let params = {username: username, password: password};
+    let params = { username, password };
 
     while($errors.firstChild) {
       $errors.removeChild($errors.firstChild);

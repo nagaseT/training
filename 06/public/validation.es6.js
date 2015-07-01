@@ -15,6 +15,7 @@ const PASSWORD_CHECK = {
   typeErrorMessage: 'passwordに使用できるのは英大小字, -, +, !, @ , #, *, &, ^, %, ~ のみです。'
 };
 
+//export function validation(params) {
 function validation(params) {
   let messages = [];
 

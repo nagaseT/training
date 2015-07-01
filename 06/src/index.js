@@ -7,6 +7,7 @@ let helpers = require('express-helpers')(app);
 let Config = require('./../config');
 
 let DataBase = require('./model/db'); // db.jsのコンストラクタ(DB())が入る
+//import DataBase from './model/db';
 let db = new DataBase(Config.config.mysql);
 
 let validation = require('./../public/validation').validation;
@@ -26,22 +27,16 @@ app.use(session({
 // routing(req -> res)
 
 // ログイン画面
-app.get('/login', function(req, res) {
-  res.render('login', {errorMessages: null});
-});
+app.get('/login', (req, res) => res.render('login', {errorMessages: null}));
 
 // ユーザ登録画面
-app.get('/registration', function(req, res) {
-  res.render('registration', {errorMessages: null});
-});
+app.get('/registration', (req, res) => res.render('registration', {errorMessages: null}));
 
 // 
-app.get('/illegal_access', function(req, res) {
-  res.render('illegal_access', {errorMessages: ['ログインして下さい。']});
-});
+app.get('/illegal_access', (req, res) => res.render('illegal_access', {errorMessages: ['ログインして下さい。']}));
 
 // 成功画面
-app.get('/main', function(req, res) {
+app.get('/main', (req, res) => {
   if (!req.session) {
     return res.status(302).redirect('/illegal_access');
   }
@@ -50,17 +45,14 @@ app.get('/main', function(req, res) {
   }
   db.connect()
     .then(() => db.getAllUser())
-    .then((resultArr) => {
+    .then((users) => {
       let loginUser = req.session.username;
-      res.render('main', {
-        users: resultArr,
-        loginUser: loginUser
-    });
+      res.render('main', { users, loginUser });
   });
 });
 
 // 登録ユーザ情報表示画面
-app.get('/user', function(req, res) {
+app.get('/user', (req, res) => {
   if (!req.session) {
     return res.status(302).redirect('/illegal_access');
   }
@@ -69,21 +61,18 @@ app.get('/user', function(req, res) {
   }
   let username = req.query.username;
   let loginUser = req.session.username;
-  res.render('user', {
-    loginUser: loginUser,
-    username: username
-  });
+  res.render('user', { loginUser, username });
 });
 
 // ログイン処理
-app.post('/login', function(req, res) {
+app.post('/login', (req, res) => {
   let username = req.body.username;
   let password = req.body.password;
 
-  let params = {username: username, password: password};
+  let params = { username, password };
   let errorMessages = validation(params);
   if (errorMessages.length > 0){
-    return res.status(400).render('login', { errorMessages: errorMessages });
+    return res.status(400).render('login', { errorMessages });
   }
   db.connect()
     .then(() => db.login(username, password))
@@ -93,25 +82,23 @@ app.post('/login', function(req, res) {
       }
       req.session.username = username;
       return res.redirect('/main');
-    }).catch(function(err) {
+    }).catch((err) => {
       return res.status(500).render('login', { errorMessages: ['ログイン失敗です'] });
     });
 });
 
 // ログアウト処理
-app.get('/logout', function(req, res) {
-  req.session.destroy(() => res.render('logout'));
-});
+app.get('/logout', (req, res) => req.session.destroy(() => res.render('logout')));
 
 // ユーザ登録処理
-app.post('/registration', function(req, res) {
+app.post('/registration', (req, res) => {
   let username = req.body.username;
   let password = req.body.password;
 
-  let params = {username: username, password: password};
+  let params = {username, password};
   let errorMessages = validation(params);
   if (errorMessages.length > 0){
-    return res.status(400).render('registration', { errorMessages: errorMessages });
+    return res.status(400).render('registration', { errorMessages });
   }
   db.connect()
     .then(() => db.register(username, password))
@@ -122,7 +109,6 @@ app.post('/registration', function(req, res) {
       if (!err.errors) {
         return res.status(500).render('registration', { errorMessages: ['登録に失敗しました。'] });
       }
-
       let usernameExistFlg = false;
       err.errors.forEach((error) => {
         if (error.message === 'username must be unique') {
@@ -132,8 +118,7 @@ app.post('/registration', function(req, res) {
       if (usernameExistFlg) {
         return res.status(400).render('registration', { errorMessages: [`${username} はすでに登録されています。`] });
       }
-
-      return res.status(500).render('registration', { errorMessages: ['登録失敗です'] });
+      return res.status(500).render('registration', { errorMessages: ['登録に失敗しました。'] });
     });
 });
 

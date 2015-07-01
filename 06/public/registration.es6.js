@@ -1,13 +1,13 @@
-window.addEventListener('load', function(e) {
+window.addEventListener('load', (e) => {
   let $registration = document.getElementById('registration');
   
   let $errors = document.getElementById('errors');
 
-  $registration.addEventListener('submit', function(e){
+  $registration.addEventListener('submit', (e) => {
     let username = document.getElementById('username').value;
     let password = document.getElementById('password').value;
     let password_confirm = document.getElementById('password_confirm').value;
-    let params = {username: username, password: password, password_confirm: password_confirm};
+    let params = {username, password, password_confirm};
 
     while($errors.firstChild) {
       $errors.removeChild($errors.firstChild);

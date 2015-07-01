@@ -19,7 +19,7 @@ class DB {
   }
 
   login(username, password) {
-    return this.Users.findOne({ where: {username: username}
+    return this.Users.findOne({ where: {username}
     }).then((user) => {
       if (!user) {
         return false;
@@ -32,10 +32,7 @@ class DB {
   }
 
   register(username, password) {
-    let saveUser = this.Users.build({
-      username: username,
-      password: password
-    });
+    let saveUser = this.Users.build({ username, password });
     return saveUser.save();
   }
 
@@ -45,7 +42,7 @@ class DB {
     .then((users) => {
       let usersArr = users.map((user) => user.get({ plain: true }));
       return usersArr;
-    })
+    });
   }
 
 }

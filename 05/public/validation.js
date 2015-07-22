@@ -1,3 +1,9 @@
+// 'Error : ' はエラー自体の本質的なデータじゃない、見た目
+// 見た目の情報は View に書く
+// <li>Error : <%= message %></li>
+//
+// xxxMessage: { category: 'WORN', message: 'username is no found' }
+// <li><%= category %> : <%= message %></li>
 var USERNAME_CHECK = {
   maxStr: 8,
   minStr: 4,
